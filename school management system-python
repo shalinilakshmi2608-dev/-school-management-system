@@ -1,0 +1,101 @@
+import java.awt.*;
+import java.awt.event.*;
+import java.util.ArrayList;
+
+class Student {
+    private String name;
+    private int age;
+    private String grade;
+
+    public Student(String name, int age, String grade) {
+        this.name = name;
+        this.age = age;
+        this.grade = grade;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    @Override
+    public String toString() {
+        return "Name: " + name + ", Age: " + age + ", Grade: " + grade;
+    }
+}
+
+public class SchoolManagementSystemAWT extends Frame implements ActionListener {
+    private TextField nameField, ageField, gradeField;
+    private TextArea displayArea;
+    private ArrayList<Student> students;
+
+    public SchoolManagementSystemAWT() {
+        students = new ArrayList<>();
+
+        setLayout(new FlowLayout());
+
+        add(new Label("Name:"));
+        nameField = new TextField(20);
+        add(nameField);
+
+        add(new Label("Age:"));
+        ageField = new TextField(20);
+        add(ageField);
+
+        add(new Label("Grade:"));
+        gradeField = new TextField(20);
+        add(gradeField);
+
+        Button addButton = new Button("Add Student");
+        addButton.addActionListener(this);
+        add(addButton);
+
+        Button viewButton = new Button("View Students");
+        viewButton.addActionListener(this);
+        add(viewButton);
+
+        Button clearButton = new Button("Clear");
+        clearButton.addActionListener(this);
+        add(clearButton);
+
+        displayArea = new TextArea(10, 50);
+        add(displayArea);
+
+        setTitle("School Management System");
+        setSize(600, 400);
+        setVisible(true);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        String command = e.getActionCommand();
+
+        if (command.equals("Add Student")) {
+            String name = nameField.getText();
+            int age = Integer.parseInt(ageField.getText());
+            String grade = gradeField.getText();
+            students.add(new Student(name, age, grade));
+            displayArea.append("Added: " + name + "\n");
+        } else if (command.equals("View Students")) {
+            displayArea.setText("");
+            for (Student student : students) {
+                displayArea.append(student + "\n");
+            }
+        } else if (command.equals("Clear")) {
+            nameField.setText("");
+            ageField.setText("");
+            gradeField.setText("");
+            displayArea.setText("");
+        }
+    }
+
+    public static void main(String[] args) {
+        new SchoolManagementSystemAWT();
+    }
+}
